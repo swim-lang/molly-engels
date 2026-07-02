@@ -104,7 +104,7 @@ function initLoadingGame() {
   const slots = Array.from(document.querySelectorAll(".slot"));
 
   // scale the whole scene to fit the viewport, so stamps always sit outside the envelope
-  const SCENE_W = 1240, SCENE_H = 760;
+  const SCENE_W = 1240, SCENE_H = 820;
   function setSceneScale() {
     const s = Math.min(1, (window.innerWidth - 48) / SCENE_W, (window.innerHeight - 48) / SCENE_H);
     scene.style.setProperty("--scene-scale", s);
@@ -118,7 +118,7 @@ function initLoadingGame() {
     let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
 
     stamp.addEventListener("pointerdown", (e) => {
-      if (stamp.classList.contains("is-placed")) return;
+      if (stamp.classList.contains("is-set")) return;
       dragging = true;
       stamp.setPointerCapture(e.pointerId);
       stamp.classList.add("is-dragging");
@@ -133,7 +133,7 @@ function initLoadingGame() {
       const s = sceneScale();
       stamp.style.left = startLeft + (e.clientX - startX) / s + "px";
       stamp.style.top = startTop + (e.clientY - startY) / s + "px";
-      highlightSlot(e.clientX, e.clientY, stamp.dataset.shape);
+      highlightSlot(e.clientX, e.clientY);
     });
 
     stamp.addEventListener("pointerup", (e) => {
@@ -141,7 +141,7 @@ function initLoadingGame() {
       dragging = false;
       stamp.classList.remove("is-dragging");
       clearHighlights();
-      const target = matchingSlotUnder(e.clientX, e.clientY, stamp.dataset.shape);
+      const target = slotUnder(e.clientX, e.clientY);
       if (target) {
         placeInSlot(stamp, target);
       } else {
@@ -160,18 +160,17 @@ function initLoadingGame() {
     };
   }
 
-  function matchingSlotUnder(x, y, shape) {
+  function slotUnder(x, y) {
     return slots.find((s) => {
       if (s.classList.contains("is-filled")) return false;
-      if (s.dataset.shape !== shape) return false;
       const r = slotRect(s);
       return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
     });
   }
 
-  function highlightSlot(x, y, shape) {
+  function highlightSlot(x, y) {
     clearHighlights();
-    const s = matchingSlotUnder(x, y, shape);
+    const s = slotUnder(x, y);
     if (s) s.classList.add("is-over");
   }
   function clearHighlights() {
@@ -180,14 +179,17 @@ function initLoadingGame() {
 
   function placeInSlot(stamp, slot) {
     slot.classList.add("is-filled");
+    // drop a copy of the picked stamp onto the letter (at its own size) so it mails off with it
     const img = document.createElement("img");
     img.src = stamp.src;
     img.className = "placed";
     img.alt = "";
+    img.style.width = stamp.offsetWidth + "px";
     slot.appendChild(img);
-    stamp.classList.add("is-placed");
+    stamp.classList.add("is-placed");                 // hide the dragged original
+    stamps.forEach((s) => s.classList.add("is-set")); // lock all options
     playPlace();
-    setTimeout(enterHome, 650); // the stamp is placed → mail the letter & enter
+    setTimeout(enterHome, 650); // stamp placed → mail the letter & enter
   }
 
   // mail the letter off to the right, then slide the home page up

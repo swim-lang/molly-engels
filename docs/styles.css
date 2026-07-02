@@ -98,25 +98,40 @@ img { display: block; }
 .loading__scene {
   position: relative;
   width: 1240px;
-  height: 760px;
+  height: 820px;
   transform: scale(var(--scene-scale, 1));
   transform-origin: center center;
 }
 
 .loading__instruction {
   position: absolute;
-  top: 20px;
+  top: 24px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--yellow);
   z-index: 5;
 }
 
+/* honey "trays" the stamp options sit in — read as pullable assets */
+.stamp-tray {
+  position: absolute;
+  top: 96px;
+  width: 112px;
+  height: 112px;
+  background: var(--honey);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  z-index: 3;
+}
+.tray-1 { left: 436px; }
+.tray-2 { left: 564px; }
+.tray-3 { left: 692px; }
+
 /* skip option — outside the envelope, below it */
 .loading__skip {
   position: absolute;
   left: 50%;
-  top: 686px;
+  top: 772px;
   transform: translateX(-50%);
   background: var(--honey);
   font-size: 12px;
@@ -128,7 +143,7 @@ img { display: block; }
 .envelope {
   position: absolute;
   left: 240px;
-  top: 180px;
+  top: 268px;
   width: 760px;
   height: 470px;
   background: var(--honey);
@@ -156,7 +171,7 @@ img { display: block; }
 .envelope__wordmark {
   position: absolute;
   left: 50px;
-  bottom: 16px;
+  bottom: 28px;
   width: 660px;
   height: auto;
 }
@@ -170,10 +185,13 @@ img { display: block; }
   align-items: center;
   gap: 16px;
 }
-/* slots sized to match the stamps so placed stamps keep their full size */
+/* a single neutral slot — any picked stamp can go here */
 .slot {
   display: grid;
   place-items: center;
+  width: 104px;
+  height: 104px;
+  transform: rotate(-4deg);
   background: rgba(255, 255, 255, 0.55);
   border: 2.5px dashed rgba(34, 34, 34, 0.5);
   border-radius: 4px;
@@ -182,9 +200,6 @@ img { display: block; }
   color: rgba(34, 34, 34, 0.6);
   transition: background 0.15s ease, border-color 0.15s ease;
 }
-.slot[data-shape="book"]  { width: 120px; height: 90px;  transform: rotate(-6deg) translateY(6px); }
-.slot[data-shape="eye"]   { width: 104px; height: 107px; transform: rotate(5deg) translateY(-8px); }
-.slot[data-shape="tulip"] { width: 92px;  height: 118px; transform: rotate(-4deg) translateY(10px); }
 .slot.is-over {
   background: rgba(255, 255, 255, 0.85);
   border-color: var(--ink);
@@ -196,9 +211,7 @@ img { display: block; }
 .slot .plus { pointer-events: none; }
 .slot.is-filled .plus { display: none; }
 .slot .placed {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
   filter: drop-shadow(4px 5px 0 rgba(34, 34, 34, 0.22));
 }
 

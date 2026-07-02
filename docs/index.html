@@ -11,28 +11,20 @@
   <!-- ===================== LOADING SCREEN ===================== -->
   <div class="loading" id="loading">
     <div class="loading__scene">
-      <div class="pill loading__instruction">Place the stamps to enter</div>
+      <div class="pill loading__instruction">Place the stamp to enter</div>
 
-      <img class="stamp" data-shape="book"  src="./assets/stamps/book.svg"  alt="Book stamp"
-           style="left:58px; top:225px; width:120px; transform:rotate(-8deg);" />
-      <img class="stamp" data-shape="eye"   src="./assets/stamps/eye.svg"   alt="Eye stamp"
-           style="left:92px; top:470px; width:104px; transform:rotate(7deg);" />
-      <img class="stamp" data-shape="tulip" src="./assets/stamps/tulip.svg" alt="Tulip stamp"
-           style="left:1052px; top:415px; width:92px; transform:rotate(-6deg);" />
+      <img class="stamp" data-shape="eye" src="./assets/stamps/eye.svg" alt="Stamp"
+           style="left:568px; top:60px; width:104px; transform:rotate(-5deg);" />
 
       <div class="envelope">
         <span class="envelope__tagline">Helping people &amp; organizations find their story</span>
         <div class="slots">
-          <div class="slot" data-shape="book"><span class="plus">+</span></div>
           <div class="slot" data-shape="eye"><span class="plus">+</span></div>
-          <div class="slot" data-shape="tulip"><span class="plus">+</span></div>
         </div>
-        <button class="enter-btn" id="enterBtn" disabled>
-          <span class="enter-btn__word">ENTER</span>
-          <span class="enter-btn__hint" id="enterHint">Place 3 stamps to unlock</span>
-        </button>
         <img class="envelope__wordmark" src="./assets/logo/wordmark.svg" alt="Molly Engels" />
       </div>
+
+      <button class="pill loading__skip" id="skipBtn">Skip this page&nbsp;&nbsp;→</button>
     </div>
   </div>
 

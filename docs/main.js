@@ -100,8 +100,6 @@ function initLoadingGame() {
   const loading = document.getElementById("loading");
   if (!loading) return;
   const scene = loading.querySelector(".loading__scene");
-  const enterBtn = document.getElementById("enterBtn");
-  const enterHint = document.getElementById("enterHint");
   const stamps = Array.from(document.querySelectorAll(".stamp"));
   const slots = Array.from(document.querySelectorAll(".slot"));
 
@@ -114,9 +112,6 @@ function initLoadingGame() {
   setSceneScale();
   window.addEventListener("resize", setSceneScale);
   const sceneScale = () => scene.getBoundingClientRect().width / SCENE_W;
-
-  let placed = 0;
-  const total = stamps.length;
 
   stamps.forEach((stamp) => {
     const home = { left: stamp.style.left, top: stamp.style.top, transform: stamp.style.transform };
@@ -191,21 +186,15 @@ function initLoadingGame() {
     img.alt = "";
     slot.appendChild(img);
     stamp.classList.add("is-placed");
-    placed += 1;
     playPlace();
-    if (placed >= total) unlock();
+    setTimeout(enterHome, 650); // the stamp is placed → mail the letter & enter
   }
 
-  function unlock() {
-    enterBtn.classList.add("is-unlocked");
-    enterBtn.disabled = false;
-    if (enterHint) enterHint.style.display = "none";
-    const instruction = document.querySelector(".loading__instruction");
-    if (instruction) instruction.textContent = "Stamps placed — you're in";
-  }
-
-  enterBtn.addEventListener("click", () => {
-    if (!enterBtn.classList.contains("is-unlocked")) return;
+  // mail the letter off to the right, then slide the home page up
+  let entered = false;
+  function enterHome() {
+    if (entered) return;
+    entered = true;
     playSend();
     const envelope = loading.querySelector(".envelope");
     const home = document.getElementById("home");
@@ -215,7 +204,10 @@ function initLoadingGame() {
       loading.classList.add("is-hidden");
       document.body.style.overflow = "";
     }, 1300);
-  });
+  }
+
+  const skipBtn = document.getElementById("skipBtn");
+  if (skipBtn) skipBtn.addEventListener("click", enterHome);
 }
 
 /* ---------- Statement section: client click-through deck ---------- */

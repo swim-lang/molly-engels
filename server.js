@@ -3,7 +3,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const ROOT = path.join(__dirname, "site");
+const ROOT = path.join(__dirname, "docs");
 const PORT = 5173;
 
 const MIME = {

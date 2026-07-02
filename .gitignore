@@ -1,0 +1,9 @@
+# OS
+.DS_Store
+**/.DS_Store
+
+# deps / build (none currently, but just in case)
+node_modules/
+
+# local tooling config (machine-specific, e.g. absolute paths)
+.claude/

@@ -1,0 +1,429 @@
+/* ============================================================
+   Molly Engels — brand tokens & base
+   ============================================================ */
+@font-face {
+  font-family: "Exposure";
+  src: url("./assets/fonts/exposure.otf") format("opentype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Muoto Mono";
+  src: url("./assets/fonts/muoto-mono.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  /* palette — black always rides on top of a color splash */
+  --ink: #222222;
+  --white: #ffffff;
+  --yellow: #f2e64d;
+  --red: #da3837;
+  --bubblegum: #f0b9d5;
+  --blue: #d2e5ee;
+  --honey: #f5f1be;
+
+  --font-display: "Exposure", Georgia, serif;
+  --font-mono: "Muoto Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --radius-pill: 999px;
+  --tracking-label: 0.14em;
+  --tracking-display: -0.02em;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; }
+
+/* shared bits ------------------------------------------------ */
+.label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+}
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+.loading {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background-color: var(--bubblegum);
+  /* chunky blue + pink stripes, centered */
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--blue) 0, var(--blue) 100px,
+    var(--bubblegum) 100px, var(--bubblegum) 200px
+  );
+  background-position: center top;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.loading.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* the whole scene scales as one unit so stamps always sit outside the envelope */
+.loading__scene {
+  position: relative;
+  width: 1240px;
+  height: 760px;
+  transform: scale(var(--scene-scale, 1));
+  transform-origin: center center;
+}
+
+.loading__instruction {
+  position: absolute;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--yellow);
+  z-index: 5;
+}
+
+/* envelope --------------------------------------------------- */
+.envelope {
+  position: absolute;
+  left: 240px;
+  top: 168px;
+  width: 760px;
+  height: 470px;
+  background: var(--honey);
+  border: 2.5px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: 14px 18px 0 rgba(34, 34, 34, 0.18);
+  padding: 34px 40px;
+  z-index: 2;
+  transition: transform 0.55s cubic-bezier(.4, 0, 1, 1), opacity 0.5s ease 0.08s;
+}
+/* clicking ENTER "mails" the letter off to the right */
+.envelope.is-sent { transform: translate(1800px, -50px) rotate(6deg); opacity: 0; }
+.envelope__tagline {
+  position: absolute;
+  top: 34px;
+  left: 40px;
+  max-width: 300px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.envelope__wordmark {
+  position: absolute;
+  left: 50px;
+  bottom: 16px;
+  width: 660px;
+  height: auto;
+}
+
+/* slots ------------------------------------------------------ */
+.slots {
+  position: absolute;
+  top: 24px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+/* slots sized to match the stamps so placed stamps keep their full size */
+.slot {
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2.5px dashed rgba(34, 34, 34, 0.5);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  color: rgba(34, 34, 34, 0.6);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.slot[data-shape="book"]  { width: 120px; height: 90px;  transform: rotate(-6deg) translateY(6px); }
+.slot[data-shape="eye"]   { width: 104px; height: 107px; transform: rotate(5deg) translateY(-8px); }
+.slot[data-shape="tulip"] { width: 92px;  height: 118px; transform: rotate(-4deg) translateY(10px); }
+.slot.is-over {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--ink);
+}
+.slot.is-filled {
+  background: transparent;
+  border-color: transparent;
+}
+.slot .plus { pointer-events: none; }
+.slot.is-filled .plus { display: none; }
+.slot .placed {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(4px 5px 0 rgba(34, 34, 34, 0.22));
+}
+
+/* enter button ---------------------------------------------- */
+.enter-btn {
+  position: absolute;
+  left: 50%;
+  top: 176px;
+  transform: translateX(-50%);
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: rgba(34, 34, 34, 0.05);
+  border: 3px dashed rgba(34, 34, 34, 0.45);
+  text-align: center;
+  cursor: not-allowed;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.enter-btn__word {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: rgba(34, 34, 34, 0.38);
+  transition: color 0.3s ease;
+}
+.enter-btn__hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: rgba(34, 34, 34, 0.55);
+  transition: color 0.3s ease;
+}
+.enter-btn.is-unlocked {
+  background: var(--red);
+  border: 3px solid var(--ink);
+  box-shadow: 7px 9px 0 var(--ink);
+  cursor: pointer;
+}
+.enter-btn.is-unlocked .enter-btn__word { color: var(--ink); }
+.enter-btn.is-unlocked .enter-btn__hint { color: var(--ink); }
+.enter-btn.is-unlocked:hover { transform: translateX(-50%) translateY(-2px); }
+.enter-btn.is-unlocked:active { transform: translateX(-50%) translateY(2px); box-shadow: 3px 4px 0 var(--ink); }
+
+/* draggable stamps ------------------------------------------ */
+.stamp {
+  position: absolute;
+  z-index: 4;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  /* bold, hard offset shadow (like the envelope) so stamps read as grabbable */
+  filter: drop-shadow(4px 5px 0 rgba(34, 34, 34, 0.22));
+  transition: left 0.25s cubic-bezier(.2,.8,.3,1), top 0.25s cubic-bezier(.2,.8,.3,1), transform 0.25s, filter 0.18s ease;
+}
+.stamp.is-dragging { cursor: grabbing; z-index: 30; transition: none; filter: drop-shadow(9px 11px 0 rgba(34, 34, 34, 0.24)); }
+.stamp.is-placed { display: none; } /* the placed clone lives inside the slot */
+
+/* ============================================================
+   HOME
+   ============================================================ */
+html { scroll-behavior: smooth; }
+
+/* home starts just below the viewport, then slides up over the loading screen on ENTER */
+.home { position: relative; z-index: 200; transform: translateY(100vh); }
+.home.is-revealed { transform: translateY(0); transition: transform 0.9s cubic-bezier(.16, 1, .3, 1); }
+
+/* pill variants + interactivity */
+.pill--bubblegum { background: var(--bubblegum); }
+.pill--blue { background: var(--blue); }
+.pill--yellow { background: var(--yellow); }
+.pill--honey { background: var(--honey); }
+.pill--red { background: var(--red); color: var(--white); }
+a.pill, button.pill { cursor: pointer; transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease; text-decoration: none; }
+a.pill:hover, button.pill:hover { transform: translateY(-2px); background: var(--blue); color: var(--ink); border-color: var(--ink); }
+
+/* NAV -------------------------------------------------------- */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 30px clamp(24px, 4vw, 56px);
+  background: var(--yellow);
+}
+.nav__brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.nav__flower { width: 34px; height: auto; }
+.nav__right { display: flex; align-items: center; gap: clamp(20px, 3vw, 36px); }
+.nav__link { text-decoration: none; transition: opacity 0.15s ease; }
+.nav__link:hover { opacity: 0.6; }
+
+/* HERO ------------------------------------------------------- */
+.hero {
+  position: relative;
+  background: var(--yellow);
+  overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 34px;
+  padding: 60px clamp(24px, 4vw, 56px) 84px;
+  min-height: 84vh;
+}
+.hero__wordmark { width: min(620px, 82vw); height: auto; position: relative; z-index: 2; }
+.hero__tagline {
+  font-family: var(--font-mono); font-size: 16px; line-height: 24px;
+  text-align: center; max-width: 520px; position: relative; z-index: 2; margin: 0;
+}
+.hero__pills { display: flex; gap: 12px; position: relative; z-index: 2; }
+.hero-stamp { position: absolute; z-index: 1; }
+.hs-eye    { left: 8%;  top: 13%; width: 80px;  transform: rotate(-9deg); }
+.hs-tulip  { left: 12%; top: 60%; width: 66px;  transform: rotate(7deg); }
+.hs-book   { right: 8%; top: 11%; width: 98px;  transform: rotate(7deg); }
+.hs-shelf  { right: 11%; top: 59%; width: 98px; transform: rotate(-7deg); }
+.hs-edge-l { left: -52px; top: 33%; width: 106px; transform: rotate(-13deg); }
+.hs-edge-r { right: -52px; top: 33%; width: 106px; transform: rotate(12deg); }
+
+/* MARQUEE ---------------------------------------------------- */
+.marquee {
+  background: var(--bubblegum);
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  overflow: hidden; padding: 18px 0; white-space: nowrap;
+}
+.marquee__track { display: inline-flex; animation: marquee 32s linear infinite; }
+.marquee__group { display: inline-flex; align-items: center; gap: 26px; padding-right: 26px; }
+.marquee__group > span {
+  font-family: var(--font-mono); font-size: 15px; letter-spacing: var(--tracking-label);
+  text-transform: uppercase; color: var(--ink);
+}
+.marquee__star { color: var(--red) !important; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* STATEMENT (red) + client deck ----------------------------- */
+.statement {
+  position: relative; background: var(--red); overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between; gap: 64px;
+  padding: clamp(80px, 9vw, 104px) clamp(24px, 4vw, 64px);
+}
+.statement__left { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; max-width: 540px; }
+.statement__headline {
+  font-family: var(--font-display); font-size: clamp(42px, 4.4vw, 62px);
+  line-height: 0.98; letter-spacing: var(--tracking-display); color: var(--ink); margin: 0;
+}
+.statement__sub { font-family: var(--font-mono); font-size: 15px; line-height: 24px; max-width: 440px; margin: 0; }
+.statement__cta { font-size: 14px; padding: 14px 30px; }
+
+.client-deck { display: flex; flex-direction: column; align-items: center; gap: 24px; flex-shrink: 0; width: 432px; }
+.deck-stack { position: relative; width: 404px; height: 304px; }
+.deck-card {
+  position: absolute; top: 0; left: 0; width: 376px; height: 280px;
+  border: 2.5px solid var(--ink); border-radius: 12px;
+  display: flex; flex-direction: column; gap: 15px; padding: 26px 28px;
+  transition: transform 0.45s cubic-bezier(.2, .8, .25, 1);
+  will-change: transform;
+}
+.card--blue { background: var(--blue); }
+.card--honey { background: var(--honey); }
+.card--pink { background: var(--bubblegum); }
+/* stacked positions (cattywampus) */
+.at-front { transform: translate(0, 0) rotate(-1.5deg); z-index: 3; }
+.at-mid   { transform: translate(15px, 13px) rotate(3.5deg); z-index: 2; }
+.at-back  { transform: translate(28px, 24px) rotate(6.5deg); z-index: 1; }
+/* shuffle animations */
+.deck-card.is-dealing { animation: deal-to-back 0.5s cubic-bezier(.45, .05, .25, 1) forwards; }
+.deck-card.is-dealing-back { animation: deal-from-back 0.5s cubic-bezier(.45, .05, .25, 1) forwards; }
+@keyframes deal-to-back {
+  0%   { transform: translate(0, 0) rotate(-1.5deg); z-index: 9; }
+  45%  { transform: translate(112px, -30px) rotate(13deg); z-index: 9; }
+  55%  { z-index: 0; }
+  100% { transform: translate(28px, 24px) rotate(6.5deg); z-index: 0; }
+}
+@keyframes deal-from-back {
+  0%   { transform: translate(112px, -30px) rotate(13deg); z-index: 9; }
+  100% { transform: translate(0, 0) rotate(-1.5deg); z-index: 9; }
+}
+.deck-card__head { display: flex; align-items: center; justify-content: space-between; }
+.deck-card__name { font-family: var(--font-display); font-size: 36px; line-height: 0.96; letter-spacing: var(--tracking-display); margin: 0; }
+.deck-card__tag { align-self: flex-start; font-size: 11px; padding: 7px 15px; }
+.deck-card__blurb { font-family: var(--font-mono); font-size: 13px; line-height: 21px; margin: 0; }
+.deck-nav { display: flex; align-items: center; gap: 20px; }
+.deck-arrow {
+  width: 42px; height: 42px; border-radius: var(--radius-pill); border: 2px solid var(--ink);
+  background: var(--honey); color: var(--ink); font-family: var(--font-mono); font-size: 17px;
+  cursor: pointer; display: grid; place-items: center; transition: transform 0.15s ease;
+}
+.deck-arrow--filled { background: var(--ink); color: var(--honey); }
+.deck-arrow:hover { transform: translateY(-2px); background: var(--blue); color: var(--ink); }
+.deck-arrow:active { transform: translateY(1px); }
+.deck-dots { display: flex; align-items: center; gap: 9px; }
+.deck-dot { width: 11px; height: 11px; border-radius: var(--radius-pill); border: 2px solid var(--ink); background: transparent; transition: background 0.2s ease; }
+.deck-dot.is-active { background: var(--ink); }
+
+/* ABOUT (blue) — open letter -------------------------------- */
+.about { background: var(--blue); display: flex; align-items: center; justify-content: center; padding: clamp(80px, 10vw, 128px) clamp(24px, 4vw, 96px); }
+.letter {
+  position: relative; width: min(840px, 92vw); background: var(--honey); border-radius: 2px;
+  padding: 58px clamp(28px, 5vw, 66px) 62px; transform: rotate(-1.5deg);
+}
+.letter__fold { position: absolute; top: 0; left: 0; width: 46px; height: 46px; z-index: 4; }
+.letter__fold::before { content: ""; position: absolute; inset: 0; background: var(--blue); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.letter__fold::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, #d7d094, #f2ecb6); clip-path: polygon(100% 0, 0 100%, 100% 100%); }
+.letter__head { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 22px; border-bottom: 1.5px solid rgba(34, 34, 34, 0.22); }
+.letter__salutation { font-family: var(--font-display); font-size: clamp(38px, 4.4vw, 52px); line-height: 0.98; letter-spacing: var(--tracking-display); margin: 26px 0 0; }
+.letter__body { font-family: var(--font-mono); font-size: 15px; line-height: 26px; max-width: 470px; margin: 20px 0 0; }
+.letter__signoff { margin-top: 28px; }
+.letter__yours { font-family: var(--font-mono); font-size: 14px; }
+.letter__sign { display: flex; align-items: center; gap: 14px; margin-top: 4px; }
+.letter__me { font-family: var(--font-display); font-size: 48px; line-height: 1; letter-spacing: var(--tracking-display); }
+.letter__flower { width: 34px; height: auto; }
+.letter__photo { position: absolute; right: -52px; top: 150px; width: 236px; height: 284px; transform: rotate(4deg); }
+.letter__photo-frame { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(3px 5px 3px rgba(34, 34, 34, 0.16)); }
+.letter__photo-img { position: absolute; top: 24px; left: 24px; width: 188px; height: 236px; object-fit: cover; object-position: center 22%; border: 2px solid var(--ink); z-index: 1; }
+.letter__tape { position: absolute; top: -14px; left: 50%; width: 104px; height: 30px; background: rgba(242, 230, 77, 0.45); border: 1px solid rgba(34, 34, 34, 0.18); transform: translateX(-50%) rotate(-5deg); z-index: 5; }
+.letter-pill { position: absolute; font-size: 12px; padding: 8px 16px; }
+.lp-1 { right: 60px; bottom: 150px; transform: rotate(-6deg); }
+.lp-2 { right: 104px; bottom: 86px; transform: rotate(7deg); }
+.lp-3 { right: 280px; bottom: 104px; transform: rotate(-10deg); }
+
+/* CTA (yellow) ---------------------------------------------- */
+.cta { position: relative; background: var(--yellow); overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: clamp(96px, 11vw, 132px) clamp(24px, 4vw, 96px) clamp(104px, 12vw, 140px); text-align: center; }
+.cta__headline { font-family: var(--font-display); font-size: clamp(66px, 10vw, 124px); line-height: 0.86; letter-spacing: var(--tracking-display); margin: 0; }
+.cta__sub { font-family: var(--font-mono); font-size: 16px; line-height: 24px; max-width: 440px; margin: 0; }
+.cta__btn { font-size: 16px; padding: 20px 36px; }
+.cta-stamp { position: absolute; z-index: 1; }
+.cta-stamp--book { left: 10%; top: 18%; width: 130px; transform: rotate(-11deg); }
+.cta-stamp--tulip { right: 12%; bottom: 18%; width: 86px; transform: rotate(9deg); }
+
+/* FOOTER ----------------------------------------------------- */
+.footer {
+  position: relative; padding: 70px clamp(24px, 4vw, 56px) 48px;
+  background-color: var(--bubblegum);
+  background-image: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 100px, rgba(0,0,0,0) 100px, rgba(0,0,0,0) 200px);
+  background-position: center top;
+}
+.footer__logo { display: block; width: 100%; max-width: 1160px; height: auto; margin: 0 auto; position: relative; z-index: 1; }
+.footer__pills { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 40px; position: relative; z-index: 1; }
+.footer__flower { width: 22px; height: auto; }
+.footer__pills .pill { font-size: 12px; padding: 9px 16px; }

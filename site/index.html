@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molly Engels — Creative Freelancer</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <!-- ===================== LOADING SCREEN ===================== -->
+  <div class="loading" id="loading">
+    <div class="loading__scene">
+      <div class="pill loading__instruction">Place the stamps to enter</div>
+
+      <img class="stamp" data-shape="book"  src="./assets/stamps/book.svg"  alt="Book stamp"
+           style="left:58px; top:225px; width:120px; transform:rotate(-8deg);" />
+      <img class="stamp" data-shape="eye"   src="./assets/stamps/eye.svg"   alt="Eye stamp"
+           style="left:92px; top:470px; width:104px; transform:rotate(7deg);" />
+      <img class="stamp" data-shape="tulip" src="./assets/stamps/tulip.svg" alt="Tulip stamp"
+           style="left:1052px; top:415px; width:92px; transform:rotate(-6deg);" />
+
+      <div class="envelope">
+        <span class="envelope__tagline">Helping people &amp; organizations find their story</span>
+        <div class="slots">
+          <div class="slot" data-shape="book"><span class="plus">+</span></div>
+          <div class="slot" data-shape="eye"><span class="plus">+</span></div>
+          <div class="slot" data-shape="tulip"><span class="plus">+</span></div>
+        </div>
+        <button class="enter-btn" id="enterBtn" disabled>
+          <span class="enter-btn__word">ENTER</span>
+          <span class="enter-btn__hint" id="enterHint">Place 3 stamps to unlock</span>
+        </button>
+        <img class="envelope__wordmark" src="./assets/logo/wordmark.svg" alt="Molly Engels" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== HOME ===================== -->
+  <main class="home" id="home">
+
+    <!-- NAV -->
+    <nav class="nav">
+      <a class="nav__brand" href="#">
+        <img class="nav__flower" src="./assets/logo/flower.svg" alt="" />
+        <span class="label">Creative Freelancer</span>
+      </a>
+      <div class="nav__right">
+        <a class="nav__link label" href="#work">Work</a>
+        <a class="nav__link label" href="#about">About</a>
+        <a class="pill pill--outline" href="#contact">Say Hello</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <img class="hero-stamp hs-eye"   src="./assets/stamps/eye.svg"   alt="" />
+      <img class="hero-stamp hs-tulip" src="./assets/stamps/tulip.svg" alt="" />
+      <img class="hero-stamp hs-book"  src="./assets/stamps/book.svg"  alt="" />
+      <img class="hero-stamp hs-shelf" src="./assets/stamps/shelf.svg" alt="" />
+      <img class="hero-stamp hs-edge-l" src="./assets/stamps/stamp6.svg" alt="" />
+      <img class="hero-stamp hs-edge-r" src="./assets/stamps/stamp3.svg" alt="" />
+
+      <img class="hero__wordmark" src="./assets/logo/wordmark-stacked.svg" alt="Molly Engels" />
+      <p class="hero__tagline">Helping people &amp; organizations find the story they are too close to see.</p>
+      <div class="hero__pills">
+        <span class="pill pill--bubblegum">Find</span>
+        <span class="pill pill--red">Your</span>
+        <span class="pill pill--blue">Story</span>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span class="marquee__group">
+          <span>Helping People &amp; Organizations Find Their Story</span><span class="marquee__star">✳</span>
+          <span>Creative Production</span><span class="marquee__star">✳</span>
+          <span>Advocacy</span><span class="marquee__star">✳</span>
+          <span>Visual Curation</span><span class="marquee__star">✳</span>
+        </span>
+        <span class="marquee__group">
+          <span>Helping People &amp; Organizations Find Their Story</span><span class="marquee__star">✳</span>
+          <span>Creative Production</span><span class="marquee__star">✳</span>
+          <span>Advocacy</span><span class="marquee__star">✳</span>
+          <span>Visual Curation</span><span class="marquee__star">✳</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- STATEMENT (red) + client deck -->
+    <section class="statement" id="work">
+      <div class="statement__left">
+        <span class="label">✳&nbsp;&nbsp;What I Do</span>
+        <h2 class="statement__headline">Every brand has a story it's too close to see.</h2>
+        <p class="statement__sub">I help people and organizations find it — and tell it in a way that's honest, human, and built to keep moving.</p>
+        <a class="pill pill--honey statement__cta" href="#contact">Find Your Story</a>
+      </div>
+
+      <div class="client-deck">
+        <div class="deck-stack" id="deckStack">
+          <div class="deck-card card--blue" data-color="card--blue">
+            <div class="deck-card__head">
+              <span class="label">✳ Selected Client</span>
+              <span class="label deck-card__count"></span>
+            </div>
+            <h3 class="deck-card__name"></h3>
+            <span class="pill deck-card__tag"></span>
+            <p class="deck-card__blurb"></p>
+          </div>
+          <div class="deck-card card--honey" data-color="card--honey">
+            <div class="deck-card__head">
+              <span class="label">✳ Selected Client</span>
+              <span class="label deck-card__count"></span>
+            </div>
+            <h3 class="deck-card__name"></h3>
+            <span class="pill deck-card__tag"></span>
+            <p class="deck-card__blurb"></p>
+          </div>
+          <div class="deck-card card--pink" data-color="card--pink">
+            <div class="deck-card__head">
+              <span class="label">✳ Selected Client</span>
+              <span class="label deck-card__count"></span>
+            </div>
+            <h3 class="deck-card__name"></h3>
+            <span class="pill deck-card__tag"></span>
+            <p class="deck-card__blurb"></p>
+          </div>
+        </div>
+        <div class="deck-nav">
+          <button class="deck-arrow" id="deckPrev" aria-label="Previous client">←</button>
+          <div class="deck-dots" id="deckDots"></div>
+          <button class="deck-arrow deck-arrow--filled" id="deckNext" aria-label="Next client">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT (blue) — open letter -->
+    <section class="about" id="about">
+      <article class="letter">
+        <div class="letter__fold"></div>
+        <div class="letter__head">
+          <span class="label">A Letter From Molly</span>
+          <span class="label">Denver, CO · 2026</span>
+        </div>
+        <h2 class="letter__salutation">Hello, I'm Molly.</h2>
+        <p class="letter__body">I'm a creative freelancer with a background spanning creative production, legal work, advocacy, and visual curation. I sit just outside the frame — close enough to understand a story, far enough to see it clearly.</p>
+        <p class="letter__body">I help people and organizations say the thing they've been circling for years. The work is honest, human, and distinctive — built to keep moving.</p>
+        <p class="letter__body">So — whatever you're too close to see, let's find it together.</p>
+        <div class="letter__signoff">
+          <span class="letter__yours">Yours,</span>
+          <div class="letter__sign">
+            <span class="letter__me">M.E.</span>
+            <img class="letter__flower" src="./assets/logo/flower.svg" alt="" />
+          </div>
+        </div>
+
+        <div class="letter__photo">
+          <img class="letter__photo-frame" src="./assets/cutouts/cut1-white.svg" alt="" />
+          <img class="letter__photo-img" src="./assets/photo/molly.jpg" alt="Molly Engels" />
+          <div class="letter__tape"></div>
+        </div>
+
+        <span class="pill pill--bubblegum letter-pill lp-1">Creative Freelancer</span>
+        <span class="pill pill--yellow letter-pill lp-2">Denver, CO</span>
+        <span class="pill pill--blue letter-pill lp-3">Est. 2019</span>
+      </article>
+    </section>
+
+    <!-- CTA (yellow) -->
+    <section class="cta" id="contact">
+      <img class="cta-stamp cta-stamp--book" src="./assets/stamps/book.svg" alt="" />
+      <img class="cta-stamp cta-stamp--tulip" src="./assets/stamps/tulip.svg" alt="" />
+      <span class="label">✳&nbsp;&nbsp;Start Here&nbsp;&nbsp;✳</span>
+      <h2 class="cta__headline">Let's find<br />your story.</h2>
+      <p class="cta__sub">Got something you're too close to see? Send a note — I'll help you say it.</p>
+      <a class="pill pill--bubblegum cta__btn" href="mailto:hello@mollyengels.com">Say Hello&nbsp;&nbsp;→</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <img class="footer__logo" src="./assets/logo/wordmark.svg" alt="Molly Engels" />
+      <div class="footer__pills">
+        <img class="footer__flower" src="./assets/logo/flower.svg" alt="" />
+        <span class="pill pill--honey">© 2026 Molly Engels</span>
+        <a class="pill pill--honey" href="mailto:hello@mollyengels.com">hello@mollyengels.com</a>
+        <span class="pill pill--blue">1616 17th St, Denver CO</span>
+        <a class="pill pill--yellow" href="#work">Work</a>
+        <a class="pill pill--bubblegum" href="#about">About</a>
+      </div>
+    </footer>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

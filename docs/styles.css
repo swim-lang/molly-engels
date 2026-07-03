@@ -208,7 +208,15 @@ img { display: block; }
   background: transparent;
   border-color: transparent;
 }
-.slot .plus { pointer-events: none; }
+.slot .plus {
+  max-width: 72px;
+  pointer-events: none;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
 .slot.is-filled .plus { display: none; }
 .slot .placed {
   height: auto;

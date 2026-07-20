@@ -301,6 +301,7 @@ html { scroll-behavior: smooth; }
 .pill--red { background: var(--red); color: var(--white); }
 a.pill, button.pill { cursor: pointer; transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease; text-decoration: none; }
 a.pill:hover, button.pill:hover { transform: translateY(-2px); background: var(--blue); color: var(--ink); border-color: var(--ink); }
+a.email-pill:hover { background: var(--bubblegum); }
 
 /* NAV -------------------------------------------------------- */
 .nav {
@@ -329,7 +330,16 @@ a.pill:hover, button.pill:hover { transform: translateY(-2px); background: var(-
   font-family: var(--font-mono); font-size: 16px; line-height: 24px;
   text-align: center; max-width: 520px; position: relative; z-index: 2; margin: 0;
 }
-.hero__pills { display: flex; gap: 12px; position: relative; z-index: 2; }
+.hero__story { display: flex; gap: 22px; position: relative; z-index: 2; margin: 14px 0 0; }
+.hero__story-word {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-bottom: 5px;
+  border-bottom: 3px solid var(--u);
+}
 .hero-stamp { position: absolute; z-index: 1; }
 .hs-eye    { left: 8%;  top: 13%; width: 80px;  transform: rotate(-9deg); }
 .hs-tulip  { left: 12%; top: 60%; width: 66px;  transform: rotate(7deg); }
@@ -435,10 +445,10 @@ a.pill:hover, button.pill:hover { transform: translateY(-2px); background: var(-
 .letter__photo-frame { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(3px 5px 3px rgba(34, 34, 34, 0.16)); }
 .letter__photo-img { position: absolute; top: 24px; left: 24px; width: 188px; height: 236px; object-fit: cover; object-position: center 22%; border: 2px solid var(--ink); z-index: 1; }
 .letter__tape { position: absolute; top: -14px; left: 50%; width: 104px; height: 30px; background: rgba(242, 230, 77, 0.45); border: 1px solid rgba(34, 34, 34, 0.18); transform: translateX(-50%) rotate(-5deg); z-index: 5; }
-.letter-pill { position: absolute; font-size: 12px; padding: 8px 16px; }
-.lp-1 { right: 60px; bottom: 150px; transform: rotate(-6deg); }
-.lp-2 { right: 104px; bottom: 86px; transform: rotate(7deg); }
-.lp-3 { right: 280px; bottom: 104px; transform: rotate(-10deg); }
+.letter-stamp { position: absolute; z-index: 3; height: auto; }
+.ls-1 { width: 84px; right: 54px;  bottom: 128px; transform: rotate(-8deg); }
+.ls-2 { width: 74px; right: 116px; bottom: 44px;  transform: rotate(9deg); }
+.ls-3 { width: 98px; right: 244px; bottom: 80px;  transform: rotate(-7deg); }
 
 /* CTA (yellow) ---------------------------------------------- */
 .cta { position: relative; background: var(--yellow); overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: clamp(96px, 11vw, 132px) clamp(24px, 4vw, 96px) clamp(104px, 12vw, 140px); text-align: center; }

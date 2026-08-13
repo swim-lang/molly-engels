@@ -214,15 +214,23 @@ function initLoadingGame() {
 
 /* ---------- Statement section: client click-through deck ---------- */
 function initClientDeck() {
-  const clients = [
-    { name: "Wildflower Press", tag: "Independent Publisher", pill: "pill--bubblegum",
-      blurb: "Forty years of backlist, no throughline. We found the one story running through all of it — and a voice that finally sounds like them." },
-    { name: "Rosewater", tag: "Skincare Brand", pill: "pill--honey",
-      blurb: "A launch with no story yet. We shaped a point of view customers could actually feel — before the first product shipped." },
-    { name: "The Longmont Fund", tag: "Nonprofit", pill: "pill--yellow",
-      blurb: "Complex work, quiet impact. We made the mission legible — and gave donors a reason to lean in." },
-    { name: "Marigold Studio", tag: "Design Studio", pill: "pill--red",
-      blurb: "A rebrand that kept stalling. We found the throughline they were too close to see, and the rest wrote itself." },
+  const services = [
+    { name: "Photography & Interview-Based Storytelling", tag: "Storytelling",
+      blurb: "Documentation and narrative development for artists who want their work, practice, or story captured with care and told well." },
+    { name: "Portfolio & Bio Writing", tag: "Writing",
+      blurb: "Help articulating your story and body of work through bios, artist statements, and copy that sounds like you." },
+    { name: "Craft & Coordination", tag: "Coordination",
+      blurb: "Coordination of artists, creatives, florals, designers, and vendors to bring your event, services, or style to life." },
+    { name: "Client Stories & Advocacy Narratives", tag: "Advocacy",
+      blurb: "Documentation of client stories and impact narratives, especially for justice-driven organizations working around prison reform, civil rights, or reentry." },
+    { name: "Affected Community & Class Member Coordination", tag: "Outreach",
+      blurb: "Direct experience coordinating with incarcerated individuals through different DOC mailing protocols, facilitating hundreds of interviews, translated into outreach and liaison work." },
+    { name: "Volunteer & Pro Bono Coordination", tag: "Programs",
+      blurb: "Help structuring volunteer or pro bono programs, drawn from experience supporting large legal teams across concurrent matters." },
+    { name: "Consulting for Creative-Legal Work", tag: "Consulting",
+      blurb: "Support for projects that carry both storytelling and legal complexity — a documentary about incarceration, an advocacy campaign, a memoir with sensitive material." },
+    { name: "Storytelling as Advocacy", tag: "Advocacy",
+      blurb: "At the heart of every service — turning lived experience and hard truths into stories that move people and shift systems." },
   ];
 
   const stack = document.getElementById("deckStack");
@@ -231,7 +239,7 @@ function initClientDeck() {
   const prevBtn = document.getElementById("deckPrev");
   const nextBtn = document.getElementById("deckNext");
   const dotsEl = document.getElementById("deckDots");
-  const n = clients.length;
+  const n = services.length;
   const pad = (x) => String(x).padStart(2, "0");
   const mod = (x) => ((x % n) + n) % n;
   const colorOf = (card) => card.dataset.color;
@@ -241,7 +249,7 @@ function initClientDeck() {
   let busy = false;
 
   function fill(card, ci) {
-    const c = clients[mod(ci)];
+    const c = services[mod(ci)];
     card.querySelector(".deck-card__name").textContent = c.name;
     card.querySelector(".deck-card__tag").textContent = c.tag;
     card.querySelector(".deck-card__blurb").textContent = c.blurb;
@@ -249,7 +257,7 @@ function initClientDeck() {
   }
   function setPos(card, pos) { card.className = "deck-card " + colorOf(card) + " " + pos; }
 
-  clients.forEach(() => { const d = document.createElement("div"); d.className = "deck-dot"; dotsEl.appendChild(d); });
+  services.forEach(() => { const d = document.createElement("div"); d.className = "deck-dot"; dotsEl.appendChild(d); });
   const dots = Array.from(dotsEl.children);
   const updateDots = () => dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
 
@@ -288,9 +296,47 @@ function initClientDeck() {
   prevBtn.addEventListener("click", prev);
 }
 
+/* ---------- Desktop / mobile preview toggle ---------- */
+function initPreviewToggle() {
+  const toggle = document.getElementById("previewToggle");
+  if (!toggle || document.documentElement.classList.contains("is-embedded")) return;
+  const overlay = document.getElementById("mobilePreview");
+  const screen = document.getElementById("mobileScreen");
+  const btns = Array.from(toggle.querySelectorAll(".preview-toggle__btn"));
+  let built = false;
+  btns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btns.forEach((b) => b.classList.toggle("is-active", b === btn));
+      const mobile = btn.dataset.view === "mobile";
+      overlay.hidden = !mobile;
+      document.body.style.overflow = mobile ? "hidden" : "";
+      if (mobile && !built) {
+        const iframe = document.createElement("iframe");
+        iframe.src = "./index.html?preview=mobile";
+        iframe.title = "Mobile preview";
+        screen.appendChild(iframe);
+        built = true;
+      }
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  window.scrollTo(0, 0);
-  document.body.style.overflow = "hidden"; // lock scroll under loading
-  initLoadingGame();
-  initClientDeck();
+  const params = new URLSearchParams(location.search);
+  const embedded = window.self !== window.top || params.get("preview") === "mobile";
+
+  if (embedded) {
+    // running inside the mobile-preview iframe: skip the loading game, show the home
+    document.documentElement.classList.add("is-embedded");
+    const loading = document.getElementById("loading");
+    if (loading) loading.remove();
+    const home = document.querySelector(".home");
+    if (home) { home.classList.add("is-revealed"); home.style.transition = "none"; home.style.transform = "none"; }
+    document.body.style.overflow = "";
+  } else {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = "hidden"; // lock scroll under loading
+    initLoadingGame();
+    initPreviewToggle();
+  }
 });

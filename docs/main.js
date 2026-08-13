@@ -296,6 +296,27 @@ function initClientDeck() {
   prevBtn.addEventListener("click", prev);
 }
 
+/* ---------- Services accordion ---------- */
+function initAccordion() {
+  const items = Array.from(document.querySelectorAll(".acc-item"));
+  items.forEach((item) => {
+    const head = item.querySelector(".acc-head");
+    if (!head) return;
+    head.addEventListener("click", () => {
+      const willOpen = !item.classList.contains("is-open");
+      items.forEach((i) => {
+        i.classList.remove("is-open");
+        const h = i.querySelector(".acc-head");
+        if (h) h.setAttribute("aria-expanded", "false");
+      });
+      if (willOpen) {
+        item.classList.add("is-open");
+        head.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+}
+
 /* ---------- Desktop / mobile preview toggle ---------- */
 function initPreviewToggle() {
   const toggle = document.getElementById("previewToggle");
@@ -339,4 +360,5 @@ document.addEventListener("DOMContentLoaded", () => {
     initLoadingGame();
     initPreviewToggle();
   }
+  initAccordion();
 });

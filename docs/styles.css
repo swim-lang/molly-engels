@@ -373,10 +373,8 @@ a.email-pill:hover { background: var(--bubblegum); }
 .statement__left { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; max-width: 640px; }
 
 /* all services shown at once — masonry columns, playfully tilted */
-.services-grid { columns: 4; column-gap: 22px; }
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; align-items: stretch; }
 .service-card {
-  break-inside: avoid;
-  margin: 0 0 22px;
   border: 2.5px solid var(--ink); border-radius: 12px;
   padding: 22px 22px 24px;
   display: flex; flex-direction: column; gap: 12px;
@@ -394,9 +392,7 @@ a.email-pill:hover { background: var(--bubblegum); }
 .service-card__name { font-family: var(--font-display); font-size: 23px; line-height: 1.02; letter-spacing: var(--tracking-display); color: var(--ink); margin: 0; }
 .service-card__tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(34, 34, 34, 0.62); margin: 0 0 -4px; }
 .service-card__blurb { font-family: var(--font-mono); font-size: 12.5px; line-height: 19px; color: var(--ink); margin: 0; }
-@media (max-width: 1080px) { .services-grid { columns: 3; } }
-@media (max-width: 760px)  { .services-grid { columns: 2; } }
-@media (max-width: 520px)  { .services-grid { columns: 1; } }
+@media (max-width: 1080px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
 .statement__headline {
   font-family: var(--font-display); font-size: clamp(42px, 4.4vw, 62px);
   line-height: 0.98; letter-spacing: var(--tracking-display); color: var(--ink); margin: 0;
@@ -563,7 +559,7 @@ a.email-pill:hover { background: var(--bubblegum); }
   /* statement / services */
   .statement { padding: 60px 18px; gap: 40px; }
   .statement__headline { font-size: 34px; }
-  .services-grid { columns: 1; }
+  .services-grid { grid-template-columns: 1fr; }
 
   /* about / letter — stack to one column, keep signature last */
   .about { padding: 60px 16px; }

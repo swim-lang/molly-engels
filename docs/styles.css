@@ -508,6 +508,7 @@ a.map-pill:hover { background: var(--yellow); }
 .letter__tape { position: absolute; top: -14px; left: 50%; width: 42%; height: 30px; background: rgba(242, 230, 77, 0.45); border: 1px solid rgba(34, 34, 34, 0.18); transform: translateX(-50%) rotate(-5deg); z-index: 5; }
 .letter-stamp { position: absolute; z-index: 3; height: auto; }
 .ls-1 { width: 92px; right: -20px; bottom: -22px; transform: rotate(8deg); z-index: 6; }
+.ls-1--mob { display: none; } /* dog stamp — mobile only; eye stays on desktop */
 
 /* CTA (yellow) ---------------------------------------------- */
 .cta { position: relative; background: var(--yellow); overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: clamp(96px, 11vw, 132px) clamp(24px, 4vw, 96px) clamp(104px, 12vw, 140px); text-align: center; }
@@ -585,6 +586,9 @@ a.map-pill:hover { background: var(--yellow); }
    MOBILE
    ============================================================ */
 @media (max-width: 700px) {
+  /* corner stamp: dog on mobile, eye on desktop */
+  .ls-1--desk { display: none; }
+  .ls-1--mob { display: block; }
   /* nav */
   .nav { padding: 20px 18px; }
   .nav__brand .label { display: none; }

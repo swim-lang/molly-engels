@@ -317,48 +317,9 @@ function initAccordion() {
   });
 }
 
-/* ---------- Desktop / mobile preview toggle ---------- */
-function initPreviewToggle() {
-  const toggle = document.getElementById("previewToggle");
-  if (!toggle || document.documentElement.classList.contains("is-embedded")) return;
-  const overlay = document.getElementById("mobilePreview");
-  const screen = document.getElementById("mobileScreen");
-  const btns = Array.from(toggle.querySelectorAll(".preview-toggle__btn"));
-  let built = false;
-  btns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      btns.forEach((b) => b.classList.toggle("is-active", b === btn));
-      const mobile = btn.dataset.view === "mobile";
-      overlay.hidden = !mobile;
-      document.body.style.overflow = mobile ? "hidden" : "";
-      if (mobile && !built) {
-        const iframe = document.createElement("iframe");
-        iframe.src = "./index.html?preview=mobile";
-        iframe.title = "Mobile preview";
-        screen.appendChild(iframe);
-        built = true;
-      }
-    });
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(location.search);
-  const embedded = window.self !== window.top || params.get("preview") === "mobile";
-
-  if (embedded) {
-    // running inside the mobile-preview iframe: skip the loading game, show the home
-    document.documentElement.classList.add("is-embedded");
-    const loading = document.getElementById("loading");
-    if (loading) loading.remove();
-    const home = document.querySelector(".home");
-    if (home) { home.classList.add("is-revealed"); home.style.transition = "none"; home.style.transform = "none"; }
-    document.body.style.overflow = "";
-  } else {
-    window.scrollTo(0, 0);
-    document.body.style.overflow = "hidden"; // lock scroll under loading
-    initLoadingGame();
-    initPreviewToggle();
-  }
+  window.scrollTo(0, 0);
+  document.body.style.overflow = "hidden"; // lock scroll under loading
+  initLoadingGame();
   initAccordion();
 });

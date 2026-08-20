@@ -549,40 +549,6 @@ a.map-pill:hover { background: var(--yellow); }
 .footer__pills .pill { font-size: 12px; padding: 9px 16px; }
 
 /* ============================================================
-   DESKTOP / MOBILE PREVIEW TOGGLE
-   ============================================================ */
-.preview-toggle {
-  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
-  z-index: 500; display: flex; gap: 4px; padding: 5px;
-  background: var(--ink); border-radius: var(--radius-pill);
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.28);
-}
-.preview-toggle__btn {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 9px 20px; border: 0; border-radius: var(--radius-pill);
-  background: transparent; color: rgba(255, 255, 255, 0.72); cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-.preview-toggle__btn.is-active { background: var(--yellow); color: var(--ink); }
-
-.mobile-preview {
-  position: fixed; inset: 0; z-index: 480;
-  background: rgba(34, 34, 34, 0.6);
-  display: grid; place-items: center; padding: 20px 20px 84px;
-}
-.mobile-preview[hidden] { display: none; }
-.mobile-preview__device {
-  width: 402px; max-width: 100%; height: min(858px, 100%);
-  background: var(--ink); border-radius: 44px; padding: 13px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-}
-.mobile-preview__screen { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: var(--yellow); }
-.mobile-preview__screen iframe { width: 100%; height: 100%; border: 0; display: block; }
-
-/* hide the toggle + overlay when the page runs inside the preview iframe */
-.is-embedded .preview-toggle, .is-embedded .mobile-preview { display: none !important; }
-
-/* ============================================================
    MOBILE
    ============================================================ */
 @media (max-width: 700px) {

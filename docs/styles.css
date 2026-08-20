@@ -303,6 +303,8 @@ a.pill, button.pill { cursor: pointer; transition: transform 0.15s ease, backgro
 a.pill:hover, button.pill:hover { transform: translateY(-2px); background: var(--blue); color: var(--ink); border-color: var(--ink); }
 a.email-pill:hover { background: var(--bubblegum); }
 a.map-pill:hover { background: var(--yellow); }
+/* the skip button is centered with translateX(-50%) — keep it put on hover (color still changes) */
+button.loading__skip:hover { transform: translateX(-50%); }
 
 /* NAV -------------------------------------------------------- */
 .nav {
@@ -552,6 +554,9 @@ a.map-pill:hover { background: var(--yellow); }
    MOBILE
    ============================================================ */
 @media (max-width: 700px) {
+  /* mobile skips the loading game — open straight to the home page */
+  .loading { display: none; }
+  .home { transform: none; }
   /* corner stamp: dog on mobile, eye on desktop */
   .ls-1--desk { display: none; }
   .ls-1--mob { display: block; }

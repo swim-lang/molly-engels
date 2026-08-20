@@ -318,8 +318,18 @@ function initAccordion() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  window.scrollTo(0, 0);
-  document.body.style.overflow = "hidden"; // lock scroll under loading
-  initLoadingGame();
+  const isMobile = window.matchMedia("(max-width: 700px)").matches;
+  if (isMobile) {
+    // mobile: skip the loading game and open straight to the home page
+    const loading = document.getElementById("loading");
+    if (loading) loading.remove();
+    const home = document.querySelector(".home");
+    if (home) { home.classList.add("is-revealed"); home.style.transition = "none"; }
+    document.body.style.overflow = "";
+  } else {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = "hidden"; // lock scroll under loading
+    initLoadingGame();
+  }
   initAccordion();
 });

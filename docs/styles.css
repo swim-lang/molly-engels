@@ -7,12 +7,7 @@
   font-weight: 100 900;
   font-display: swap;
 }
-@font-face {
-  font-family: "Muoto Mono";
-  src: url("./assets/fonts/muoto-mono.otf") format("opentype");
-  font-weight: 400;
-  font-display: swap;
-}
+/* Roboto Mono is loaded from Google Fonts via <link> in index.html */
 
 :root {
   /* palette — black always rides on top of a color splash */
@@ -25,7 +20,7 @@
   --honey: #f5f1be;
 
   --font-display: "Exposure", Georgia, serif;
-  --font-mono: "Muoto Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-mono: "Roboto Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --radius-pill: 999px;
   --tracking-label: 0.14em;
